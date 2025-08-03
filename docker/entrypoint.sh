@@ -19,7 +19,7 @@ declare -a ACCOUNT_IDENTIFIERS=()
 declare -A ACCOUNT_CONFIG=()
 declare -A ACCOUNT_LIBRARIES
 
-get_account_identifiers() {
+account_get_identifiers() {
   ACCOUNT_IDENTIFIERS=()
   while IFS='=' read -r key _; do
     if [[ "$key" =~ ^SEAFD_ACCOUNT_([A-Z0-9]+)$ ]]; then
@@ -246,7 +246,7 @@ account_sync() {
   done
 }
 
-get_account_identifiers
+account_get_identifiers
 
 for identifier in "${ACCOUNT_IDENTIFIERS[@]}"; do
   account_init "$identifier"

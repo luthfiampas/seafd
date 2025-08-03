@@ -1,0 +1,37 @@
+services:
+  seafd-test:
+    container_name: seafd-test
+    image: seafd-test:latest
+    build:
+      context: ../docker/.
+      args:
+        VERSION: $(cat ../docker/VERSION)
+    user: "1000:1000"
+    restart: unless-stopped
+    volumes:
+      - ./seafd:/seafd
+    environment:
+      - SEAFD_ACCOUNT_ACC1
+      - SEAFD_ACCOUNT_ACC1_PASSWORD
+      - SEAFD_ACCOUNT_ACC1_URL
+      - SEAFD_ACCOUNT_ACC1_2FA_SECRET
+      - SEAFD_ACCOUNT_ACC1_DOWNLOAD_SPEED
+      - SEAFD_ACCOUNT_ACC1_UPLOAD_SPEED
+      - SEAFD_ACCOUNT_ACC1_SKIP_CERT
+      - SEAFD_ACCOUNT_ACC1_LIBS_SECURED
+      - SEAFD_ACCOUNT_ACC1_LIBS_SECURED_PASSWORD
+      - SEAFD_ACCOUNT_ACC1_LIBS_NOTES
+      - SEAFD_ACCOUNT_ACC2
+      - SEAFD_ACCOUNT_ACC2_PASSWORD
+      - SEAFD_ACCOUNT_ACC2_URL
+      - SEAFD_ACCOUNT_ACC2_DOWNLOAD_SPEED
+      - SEAFD_ACCOUNT_ACC2_UPLOAD_SPEED
+      - SEAFD_ACCOUNT_ACC2_SKIP_CERT
+      - SEAFD_ACCOUNT_ACC2_LIBS_LIBRARY1
+      - SEAFD_ACCOUNT_ACC2_LIBS_LIBRARY2
+    networks:
+      - seafd-test-network
+
+networks:
+  seafd-test-network:
+    name: seafd-test-network

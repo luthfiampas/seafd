@@ -103,14 +103,14 @@ account_init() {
     echo "[INFO] [account=${identifier,,}]: Seafile client already initialized at $config_dir, skipping init."
   else
     if ! seaf-cli init -c "$config_dir" -d "$base_dir"; then
-      echo "Failed to initialize Seafile client. Check permissions or existing state."
+      echo "[ERROR] [account=${identifier,,}]: Failed to initialize Seafile client. Check permissions or existing state."
       exit 1
     fi
   fi
 
   if [ "$skip_cert" = "true" ]; then
     if ! seaf-cli config -k disable_verify_certificate -v true -c "$config_dir"; then
-      echo "Failed to configure SSL verification option."
+      echo "[ERROR] [account=${identifier,,}]: Failed to configure SSL verification option."
       exit 1
     fi
   fi
@@ -238,6 +238,7 @@ account_sync() {
     fi
 
     echo "[INFO] [account=${identifier,,}, library=${lib_identifier,,}]: Running sync command."
+
     if ! "${sync_args[@]}"; then
       echo "[ERROR] [account=${identifier,,}, library=${lib_identifier,,}]: Failed to sync library."
       exit 1

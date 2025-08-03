@@ -18,27 +18,29 @@ Seafile’s 2FA **does not accept reused TOTP tokens**, even if they are still v
 
 ## Environment variables
 
-Each account uses the prefix `SEAFD_ACCOUNT_<IDENTIFIER>`, where `<IDENTIFIER>` (e.g., `ACC1`, `ACC2`) also becomes the directory name (e.g., `/seafd/acc1`). Each library uses a `LIBRARY_IDENTIFIER`, which becomes a lowercase subdirectory under `/seafd/acc1/libraries` (e.g., `/seafd/acc1/libraries/work`).
+Each account is prefixed with `SEAFD_ACCOUNT_<IDENTIFIER>`, where `<IDENTIFIER>` is a label (e.g., `ACC1`, `ACC2`) that determines the account's directory path (e.g., `/seafd/acc1`).
+
+Each library under an account also uses a unique `<IDENTIFIER>`, which becomes a lowercase subdirectory within the account's `libraries` folder (e.g., `/seafd/acc1/libraries/work`).
 
 > ⚠️ Use only lowercase letters and digits (a-z, 0-9) for all identifiers to ensure correct parsing.
 
-| Variable                                                        | Purpose                                             |
-| :-------------------------------------------------------------- | :-------------------------------------------------- |
-| `SEAFD_ACCOUNT_<IDENTIFIER>`                                    | **\*** Account username or email.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                           | **\*** Account password.                            |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_URL`                                | **\*** Seafile instance base URL.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_2FA_SECRET`                         | TOTP secret for 2FA-enabled accounts.               |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_SKIP_CERT`                          | Set to `true` to skip SSL certificate verification. |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_DOWNLOAD_SPEED`                     | Download rate limit in bytes/sec.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_UPLOAD_SPEED`                       | Upload rate limit in bytes/sec.                     |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<LIBRARY_IDENTIFIER>`          | **\*** Seafile library GUID.                        |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<LIBRARY_IDENTIFIER>_PASSWORD` | Password for that specific library (if protected).  |
+| Variable                                                | Purpose                                             |
+| :------------------------------------------------------ | :-------------------------------------------------- |
+| `SEAFD_ACCOUNT_<IDENTIFIER>`                            | **\*** Account username or email.                   |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                   | **\*** Account password.                            |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_URL`                        | **\*** Seafile instance base URL.                   |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_2FA_SECRET`                 | TOTP secret for 2FA-enabled accounts.               |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_SKIP_CERT`                  | Set to `true` to skip SSL certificate verification. |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_DOWNLOAD_SPEED`             | Download rate limit in bytes/sec.                   |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_UPLOAD_SPEED`               | Upload rate limit in bytes/sec.                     |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>`          | **\*** Seafile library GUID.                        |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>_PASSWORD` | Password for that specific library (if protected).  |
 
 ## Directory structure
 
 Each account defined in the environment will be assigned a dedicated configuration directory inside the mounted volume. This ensures that multiple accounts remain isolated, each with its own sync state, logs, and credentials.
 
-All synced data is stored under `/seafd/<account_id>`. For example, with `SEAFD_ACCOUNT_ACC1`, the container will initialize and use:
+All synced data is stored under `/seafd/<IDENTIFIER>`. For example, with `SEAFD_ACCOUNT_ACC1`, the container will initialize and use:
 
 ```
 /seafd/acc1/config
@@ -105,7 +107,7 @@ networks:
 
 ### `.env`
 
-You can define multiple accounts using the `SEAFD_ACCOUNT_<ACCOUNT_ID>` prefix. Each account can have multiple libraries.
+You can define multiple accounts using the `SEAFD_ACCOUNT_<IDENTIFIER>` prefix. Each account can have multiple libraries.
 
 ```bash
 # ------------------------------------------------------------------

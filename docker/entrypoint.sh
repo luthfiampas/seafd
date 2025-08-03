@@ -109,7 +109,6 @@ account_init() {
   fi
 
   if [ "$skip_cert" = "true" ]; then
-    echo "[INFO] [account=${identifier,,}]: SFCLI_NOSSL=true: Disabling SSL certificate verification."
     if ! seaf-cli config -k disable_verify_certificate -v true -c "$config_dir"; then
       echo "Failed to configure SSL verification option."
       exit 1

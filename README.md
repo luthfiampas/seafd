@@ -9,7 +9,7 @@ A dockerized [Seafile client for a CLI server](https://help.seafile.com/syncing_
 - Built-in [oathtool](https://www.nongnu.org/oath-toolkit/oathtool.1.html) for 2FA TOTP
 - Supports **password-protected libraries**
 - Can **disable SSL verification**
-- Configurable **upload/download bandwidth limits**
+- Configurable **upload/download speed limits**
 - Runs as non-root user (use `user:` in Compose)
 
 ## Current limitations
@@ -22,7 +22,7 @@ Each account is prefixed with `SEAFD_ACCOUNT_<IDENTIFIER>`, where `<IDENTIFIER>`
 
 Each library under an account also uses a unique `<IDENTIFIER>`, which becomes a lowercase subdirectory within the account's `libraries` folder (e.g., `/seafd/acc1/libraries/work`).
 
-> ⚠️ Use only lowercase letters and digits (a-z, 0-9) for all identifiers to ensure correct parsing.
+> ⚠️ Use only letters and digits (a-z, 0-9) for all identifiers to ensure correct parsing.
 
 | Variable                                                | Purpose                                             |
 | :------------------------------------------------------ | :-------------------------------------------------- |

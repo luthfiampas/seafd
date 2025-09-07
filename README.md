@@ -6,6 +6,7 @@ A dockerized [Seafile client for a CLI server](https://help.seafile.com/syncing_
 - Runs the official Seafile CLI in a slim Debian-based container
 - Supports multiple **independent Seafile accounts**
 - Supports multiple **libraries per account**
+- Authentication via web API token and password
 - Built-in [oathtool](https://www.nongnu.org/oath-toolkit/oathtool.1.html) for 2FA TOTP
 - Supports **password-protected libraries**
 - Can **disable SSL verification**
@@ -27,7 +28,8 @@ Each library under an account also uses a unique `<IDENTIFIER>`, which becomes a
 | Variable                                                | Purpose                                             |
 | :------------------------------------------------------ | :-------------------------------------------------- |
 | `SEAFD_ACCOUNT_<IDENTIFIER>`                            | **\*** Account username or email.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                   | **\*** Account password.                            |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_TOKEN`                      | **\*** Account web API token (if using password).   |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                   | **\*** Account password (if not using token).       |
 | `SEAFD_ACCOUNT_<IDENTIFIER>_URL`                        | **\*** Seafile instance base URL.                   |
 | `SEAFD_ACCOUNT_<IDENTIFIER>_2FA_SECRET`                 | TOTP secret for 2FA-enabled accounts.               |
 | `SEAFD_ACCOUNT_<IDENTIFIER>_SKIP_CERT`                  | Set to `true` to skip SSL certificate verification. |
@@ -93,7 +95,7 @@ services:
       - SEAFD_ACCOUNT_ACC1_LIBS_WORK_PASSWORD
       - SEAFD_ACCOUNT_ACC1_LIBS_NOTES
       - SEAFD_ACCOUNT_ACC2
-      - SEAFD_ACCOUNT_ACC2_PASSWORD
+      - SEAFD_ACCOUNT_ACC2_TOKEN
       - SEAFD_ACCOUNT_ACC2_URL
       - SEAFD_ACCOUNT_ACC2_LIBS_LIBRARY1
       - SEAFD_ACCOUNT_ACC2_LIBS_LIBRARY2
@@ -148,9 +150,8 @@ SEAFD_ACCOUNT_ACC1_LIBS_NOTES="e1000e58-ffff-bbbb-cccc-deadbeef0002"
 # Account 2
 # ------------------------------------------------------------------
 SEAFD_ACCOUNT_ACC2="<another-account>"
-SEAFD_ACCOUNT_ACC2_PASSWORD="<password>"
+SEAFD_ACCOUNT_ACC2_TOKEN="<web-api-token>"
 SEAFD_ACCOUNT_ACC2_URL="https://another-seafile-instance.com"
-SEAFD_ACCOUNT_ACC2_2FA_SECRET="<optional-totp-secret>"
 SEAFD_ACCOUNT_ACC2_DOWNLOAD_SPEED=5242880
 SEAFD_ACCOUNT_ACC2_UPLOAD_SPEED=5242880
 SEAFD_ACCOUNT_ACC2_SKIP_CERT=false

@@ -36,7 +36,7 @@ account_get_config() {
   ACCOUNT_CONFIG[USERNAME]="${!base}"
 
   local var
-  for field in URL PASSWORD 2FA_SECRET DOWNLOAD_SPEED UPLOAD_SPEED SKIP_CERT; do
+  for field in URL TOKEN PASSWORD 2FA_SECRET DOWNLOAD_SPEED UPLOAD_SPEED SKIP_CERT; do
     var="${base}_${field}"
     ACCOUNT_CONFIG["$field"]="${!var}"
   done
@@ -148,6 +148,7 @@ account_sync() {
   local config_dir="${ACCOUNT_CONFIG[CONFIG_DIR]}"
   local config_url="${ACCOUNT_CONFIG[URL]}"
   local config_username="${ACCOUNT_CONFIG[USERNAME]}"
+  local config_token="${ACCOUNT_CONFIG[TOKEN]}"
   local config_password="${ACCOUNT_CONFIG[PASSWORD]}"
   local config_2fa="${ACCOUNT_CONFIG[2FA_SECRET]}"
 
@@ -184,10 +185,15 @@ account_sync() {
       -l "$lib_guid"
       -d "$lib_dir"
       -s "$config_url"
-      -u "$config_username"
-      -p "$config_password"
       -c "$config_dir"
+      -u "$config_username"
     )
+
+    if [[ -n "$config_token" ]]; then
+      sync_args+=(-T "$config_token")
+    elif [[ -n "$config_password" ]]; then
+      sync_args+=(-p "$config_password")
+    fi
 
     if [[ -n "$lib_password" ]]; then
       sync_args+=(-e "$lib_password")

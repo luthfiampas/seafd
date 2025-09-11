@@ -2,16 +2,14 @@
 
 A dockerized [Seafile client for a CLI server](https://help.seafile.com/syncing_client/linux-cli/), inspired by [flrnnc/docker-seafile-client](https://gitlab.com/flrnnc-oss/docker-seafile-client). It supports syncing **multiple accounts** and **multiple libraries**, including password-protected libraries and TOTP-based **2FA**.
 
-- Single-script entrypoint: [`entrypoint.sh`](docker/entrypoint.sh)
-- Runs the official Seafile CLI in a slim Debian-based container
-- Supports multiple **independent Seafile accounts**
-- Supports multiple **libraries per account**
-- Authentication via web API token and password
-- Built-in [oathtool](https://www.nongnu.org/oath-toolkit/oathtool.1.html) for 2FA TOTP
-- Supports **password-protected libraries**
-- Can **disable SSL verification**
-- Configurable **upload/download speed limits**
-- Runs as non-root user (use `user:` in Compose)
+- Single-script entrypoint.
+- Supports multiple **independent Seafile accounts**.
+- Supports multiple **libraries per account**.
+- Authentication via web API token and password.
+- Built-in [oathtool](https://www.nongnu.org/oath-toolkit/oathtool.1.html) for 2FA TOTP.
+- Supports **password-protected libraries**.
+- Can **disable SSL verification**.
+- Configurable **upload/download speed limits**.
 
 ## Current limitations
 
@@ -25,18 +23,18 @@ Each library under an account also uses a unique `<IDENTIFIER>`, which becomes a
 
 > ⚠️ Use only letters and digits (a-z, 0-9) for all identifiers to ensure correct parsing.
 
-| Variable                                                | Purpose                                             |
-| :------------------------------------------------------ | :-------------------------------------------------- |
-| `SEAFD_ACCOUNT_<IDENTIFIER>`                            | **\*** Account username or email.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_TOKEN`                      | **\*** Account web API token (if using password).   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                   | **\*** Account password (if not using token).       |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_URL`                        | **\*** Seafile instance base URL.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_2FA_SECRET`                 | TOTP secret for 2FA-enabled accounts.               |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_SKIP_CERT`                  | Set to `true` to skip SSL certificate verification. |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_DOWNLOAD_SPEED`             | Download rate limit in bytes/sec.                   |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_UPLOAD_SPEED`               | Upload rate limit in bytes/sec.                     |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>`          | **\*** Seafile library GUID.                        |
-| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>_PASSWORD` | Password for that specific library (if protected).  |
+| Variable                                                | Purpose                                                              |
+| :------------------------------------------------------ | :------------------------------------------------------------------- |
+| `SEAFD_ACCOUNT_<IDENTIFIER>`                            | **\*** Account username or email (can be anything when using token). |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_TOKEN`                      | **\*** Account web API token (if not using password).                |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_PASSWORD`                   | **\*** Account password (if not using token).                        |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_URL`                        | **\*** Seafile instance base URL.                                    |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_2FA_SECRET`                 | TOTP secret for 2FA-enabled accounts.                                |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_SKIP_CERT`                  | Set to `true` to skip SSL certificate verification.                  |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_DOWNLOAD_SPEED`             | Download rate limit in bytes/sec.                                    |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_UPLOAD_SPEED`               | Upload rate limit in bytes/sec.                                      |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>`          | **\*** Seafile library GUID.                                         |
+| `SEAFD_ACCOUNT_<IDENTIFIER>_LIBS_<IDENTIFIER>_PASSWORD` | Password for that specific library (if protected).                   |
 
 ## Directory structure
 
